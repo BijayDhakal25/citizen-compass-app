@@ -1,0 +1,229 @@
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
+@import "@fontsource/plus-jakarta-sans/700.css";
+@import "@fontsource/plus-jakarta-sans/800.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* E-Governance Design System for Likhu Gaupalika */
+
+@layer base {
+  :root {
+    /* Government Blue Theme */
+    --background: 210 20% 98%;
+    --foreground: 204 64% 20%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 204 64% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 204 64% 20%;
+
+    /* Primary: Deep Government Blue #1F618D */
+    --primary: 204 64% 34%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 204 64% 28%;
+    --primary-light: 204 64% 94%;
+
+    /* Secondary: Trust Green #117A65 */
+    --secondary: 168 76% 27%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-light: 168 40% 94%;
+
+    /* Accent: Alert Orange #F39C12 */
+    --accent: 37 90% 51%;
+    --accent-foreground: 0 0% 100%;
+    --accent-light: 37 90% 95%;
+
+    --muted: 210 20% 96%;
+    --muted-foreground: 204 20% 45%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 168 76% 27%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 37 90% 51%;
+    --warning-foreground: 0 0% 100%;
+
+    --border: 210 20% 88%;
+    --input: 210 20% 88%;
+    --ring: 204 64% 34%;
+
+    --radius: 0.5rem;
+
+    /* Sidebar */
+    --sidebar-background: 204 64% 20%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 204 64% 34%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 204 64% 28%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 204 64% 25%;
+    --sidebar-ring: 37 90% 51%;
+
+    /* Custom gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(204 64% 34%) 0%, hsl(204 64% 20%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(210 20% 98%) 100%);
+    --gradient-success: linear-gradient(135deg, hsl(168 76% 27%) 0%, hsl(168 76% 35%) 100%);
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 hsl(204 64% 20% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(204 64% 20% / 0.1), 0 2px 4px -2px hsl(204 64% 20% / 0.1);
+    --shadow-lg: 0 10px 15px -3px hsl(204 64% 20% / 0.1), 0 4px 6px -4px hsl(204 64% 20% / 0.1);
+    --shadow-xl: 0 20px 25px -5px hsl(204 64% 20% / 0.15), 0 8px 10px -6px hsl(204 64% 20% / 0.1);
+  }
+
+  .dark {
+    --background: 204 64% 8%;
+    --foreground: 210 20% 98%;
+
+    --card: 204 64% 12%;
+    --card-foreground: 210 20% 98%;
+
+    --popover: 204 64% 12%;
+    --popover-foreground: 210 20% 98%;
+
+    --primary: 204 64% 50%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 204 64% 55%;
+    --primary-light: 204 64% 20%;
+
+    --secondary: 168 60% 40%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-light: 168 40% 15%;
+
+    --accent: 37 90% 55%;
+    --accent-foreground: 0 0% 100%;
+    --accent-light: 37 90% 15%;
+
+    --muted: 204 40% 18%;
+    --muted-foreground: 210 20% 70%;
+
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 168 60% 40%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 37 90% 55%;
+    --warning-foreground: 204 64% 8%;
+
+    --border: 204 40% 20%;
+    --input: 204 40% 20%;
+    --ring: 204 64% 50%;
+
+    --sidebar-background: 204 64% 8%;
+    --sidebar-foreground: 210 20% 98%;
+    --sidebar-primary: 204 64% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 204 64% 15%;
+    --sidebar-accent-foreground: 210 20% 98%;
+    --sidebar-border: 204 40% 18%;
+    --sidebar-ring: 37 90% 55%;
+
+    --gradient-hero: linear-gradient(135deg, hsl(204 64% 15%) 0%, hsl(204 64% 8%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(204 64% 12%) 0%, hsl(204 64% 8%) 100%);
+    --gradient-success: linear-gradient(135deg, hsl(168 60% 35%) 0%, hsl(168 60% 45%) 100%);
+
+    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.2);
+    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.3), 0 2px 4px -2px hsl(0 0% 0% / 0.2);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.3), 0 4px 6px -4px hsl(0 0% 0% / 0.2);
+    --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.4), 0 8px 10px -6px hsl(0 0% 0% / 0.3);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold tracking-tight;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-sm border border-border/50 shadow-md;
+  }
+
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .gradient-success {
+    background: var(--gradient-success);
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%);
+  }
+
+  .animate-fade-up {
+    animation: fadeUp 0.6s ease-out forwards;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300;
+  }
+
+  .hover-lift:hover {
+    @apply -translate-y-1;
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+@layer utilities {
+  .shadow-gov-sm {
+    box-shadow: var(--shadow-sm);
+  }
+  .shadow-gov-md {
+    box-shadow: var(--shadow-md);
+  }
+  .shadow-gov-lg {
+    box-shadow: var(--shadow-lg);
+  }
+  .shadow-gov-xl {
+    box-shadow: var(--shadow-xl);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
