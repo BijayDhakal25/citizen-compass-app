@@ -1,32 +1,44 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown, User, LogIn } from "lucide-react";
+import { Menu, X, ChevronDown, User, LogIn, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const navLinks = [
-  { name: "Home", path: "/" },
-  { name: "About", path: "/about" },
-  {
-    name: "Services",
-    path: "/services",
-    children: [
-      { name: "All Services", path: "/services" },
-      { name: "Certificates", path: "/services/certificates" },
-      { name: "Complaints", path: "/complaints" },
-      { name: "Feedback", path: "/feedback" },
-    ],
-  },
-  { name: "Announcements", path: "/announcements" },
-  { name: "Contact", path: "/contact" },
-];
+import { useAuth } from "@/contexts/AuthContext";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+  const { t } = useLanguage();
+
+  const navLinks = [
+    { name: t("home"), path: "/" },
+    { name: t("about"), path: "/about" },
+    {
+      name: t("services"),
+      path: "/services",
+      children: [
+        { name: t("allServices"), path: "/services" },
+        { name: t("certificates"), path: "/services/certificates" },
+        { name: t("complaints"), path: "/complaints" },
+        { name: t("feedback"), path: "/feedback" },
+      ],
+    },
+    { name: t("announcements"), path: "/announcements" },
+    { name: t("contact"), path: "/contact" },
+  ];
 
   const isActive = (path: string) => location.pathname === path;
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+    setMobileMenuOpen(false);
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full">
@@ -37,11 +49,7 @@ export function Navbar() {
             <span>📞 +977-10-XXXXXX</span>
             <span className="hidden sm:inline">✉️ info@likhugaupalika.gov.np</span>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-primary-foreground/70">नेपाली</span>
-            <span className="text-primary-foreground/40">|</span>
-            <span className="font-medium">English</span>
-          </div>
+          <LanguageSwitcher />
         </div>
       </div>
 
@@ -55,7 +63,7 @@ export function Navbar() {
             </div>
             <div className="hidden sm:block">
               <div className="font-display font-bold text-foreground leading-tight">
-                Likhu Gaupalika
+                {t("likhugaupalika")}
               </div>
               <div className="text-xs text-muted-foreground">
                 Nuwakot, Bagmati Province
@@ -120,18 +128,27 @@ export function Navbar() {
 
           {/* Auth buttons */}
           <div className="hidden lg:flex items-center gap-3">
-            <Button variant="ghost" size="sm" asChild>
-              <Link to="/login">
-                <LogIn className="h-4 w-4" />
-                Login
-              </Link>
-            </Button>
-            <Button size="sm" asChild>
-              <Link to="/dashboard">
-                <User className="h-4 w-4" />
-                Dashboard
-              </Link>
-            </Button>
+            {user ? (
+              <>
+                <Button size="sm" asChild>
+                  <Link to="/dashboard">
+                    <User className="h-4 w-4" />
+                    {t("dashboard")}
+                  </Link>
+                </Button>
+                <Button variant="ghost" size="sm" onClick={handleLogout}>
+                  <LogOut className="h-4 w-4" />
+                  {t("logout")}
+                </Button>
+              </>
+            ) : (
+              <Button size="sm" asChild>
+                <Link to="/login">
+                  <LogIn className="h-4 w-4" />
+                  {t("login")}
+                </Link>
+              </Button>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -187,16 +204,24 @@ export function Navbar() {
                   </div>
                 ))}
                 <div className="pt-4 border-t border-border flex gap-2">
-                  <Button variant="outline" className="flex-1" asChild>
-                    <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
-                      Login
-                    </Link>
-                  </Button>
-                  <Button className="flex-1" asChild>
-                    <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)}>
-                      Dashboard
-                    </Link>
-                  </Button>
+                  {user ? (
+                    <>
+                      <Button className="flex-1" asChild>
+                        <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)}>
+                          {t("dashboard")}
+                        </Link>
+                      </Button>
+                      <Button variant="outline" className="flex-1" onClick={handleLogout}>
+                        {t("logout")}
+                      </Button>
+                    </>
+                  ) : (
+                    <Button className="flex-1" asChild>
+                      <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
+                        {t("login")}
+                      </Link>
+                    </Button>
+                  )}
                 </div>
               </div>
             </motion.div>
