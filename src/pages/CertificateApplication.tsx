@@ -126,7 +126,7 @@ export default function CertificateApplication() {
     // Simulate processing
     await new Promise(resolve => setTimeout(resolve, 1500));
 
-    const app = submitApplication(user.id, type, formData);
+    const app = submitApplication(user.id, user.name, user.email, type, formData);
     setSubmittedAppId(app.id);
     setIsSubmitted(true);
     setIsSubmitting(false);
