@@ -6,14 +6,18 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/contexts/AuthContext";
 import { useApplications } from "@/contexts/ApplicationContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Bell, Mail, MessageSquare, Megaphone, FileText, Save } from "lucide-react";
+import { ArrowLeft, Bell, Mail, MessageSquare, Megaphone, FileText, Smartphone, Globe, Save } from "lucide-react";
 
 export default function NotificationSettings() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { notificationSettings, updateNotificationSettings } = useApplications();
+  const { language } = useLanguage();
   const { toast } = useToast();
+
+  const isNepali = language === "ne";
 
   if (!user) {
     navigate("/login");
@@ -23,8 +27,8 @@ export default function NotificationSettings() {
   const handleToggle = (key: keyof typeof notificationSettings) => {
     updateNotificationSettings({ [key]: !notificationSettings[key] });
     toast({
-      title: "Settings Updated",
-      description: "Your notification preferences have been saved."
+      title: isNepali ? "सेटिङ अपडेट भयो" : "Settings Updated",
+      description: isNepali ? "तपाईंको सूचना प्राथमिकताहरू सुरक्षित गरियो।" : "Your notification preferences have been saved."
     });
   };
 
@@ -32,26 +36,26 @@ export default function NotificationSettings() {
     {
       key: "emailNotifications" as const,
       icon: Mail,
-      title: "Email Notifications",
-      description: "Receive updates via email"
+      title: isNepali ? "इमेल सूचनाहरू" : "Email Notifications",
+      description: isNepali ? "इमेलमार्फत अपडेटहरू प्राप्त गर्नुहोस्" : "Receive updates via email"
     },
     {
       key: "smsNotifications" as const,
-      icon: MessageSquare,
-      title: "SMS Notifications",
-      description: "Receive updates via SMS"
+      icon: Smartphone,
+      title: isNepali ? "SMS सूचनाहरू" : "SMS Notifications",
+      description: isNepali ? "SMS मार्फत अपडेटहरू प्राप्त गर्नुहोस्" : "Receive updates via SMS"
     },
     {
       key: "applicationUpdates" as const,
       icon: FileText,
-      title: "Application Updates",
-      description: "Get notified when your application status changes"
+      title: isNepali ? "आवेदन अपडेटहरू" : "Application Updates",
+      description: isNepali ? "तपाईंको आवेदनको स्थिति परिवर्तन हुँदा सूचित हुनुहोस्" : "Get notified when your application status changes"
     },
     {
       key: "announcements" as const,
       icon: Megaphone,
-      title: "Announcements",
-      description: "Receive public announcements and news"
+      title: isNepali ? "सूचनाहरू" : "Announcements",
+      description: isNepali ? "सार्वजनिक सूचना र समाचारहरू प्राप्त गर्नुहोस्" : "Receive public announcements and news"
     }
   ];
 
@@ -59,9 +63,9 @@ export default function NotificationSettings() {
     <Layout>
       <section className="py-8 min-h-[80vh]">
         <div className="container">
-          <Button variant="ghost" className="mb-6" onClick={() => navigate("/dashboard")}>
+          <Button variant="ghost" className="mb-6" onClick={() => navigate(-1)}>
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Dashboard
+            {isNepali ? "पछाडि जानुहोस्" : "Go Back"}
           </Button>
 
           <motion.div
@@ -77,27 +81,29 @@ export default function NotificationSettings() {
                     <Bell className="h-6 w-6" />
                   </div>
                   <div>
-                    <h1 className="text-xl font-display font-bold">Notification Settings</h1>
+                    <h1 className="text-xl font-display font-bold">
+                      {isNepali ? "सूचना सेटिङहरू" : "Notification Settings"}
+                    </h1>
                     <p className="text-sm text-primary-foreground/80">
-                      Manage how you receive notifications
+                      {isNepali ? "तपाईं कसरी सूचनाहरू प्राप्त गर्नुहुन्छ व्यवस्थापन गर्नुहोस्" : "Manage how you receive notifications"}
                     </p>
                   </div>
                 </div>
               </div>
 
               {/* Settings */}
-              <div className="p-6 space-y-6">
+              <div className="p-6 space-y-4">
                 {settings.map(setting => (
                   <div 
                     key={setting.key}
-                    className="flex items-center justify-between p-4 rounded-lg bg-muted/50"
+                    className="flex items-center justify-between p-4 rounded-lg bg-muted/50 hover:bg-muted/70 transition-colors"
                   >
                     <div className="flex items-center gap-4">
                       <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
                         <setting.icon className="h-5 w-5 text-primary" />
                       </div>
                       <div>
-                        <Label className="font-medium">{setting.title}</Label>
+                        <Label className="font-medium text-foreground">{setting.title}</Label>
                         <p className="text-sm text-muted-foreground">{setting.description}</p>
                       </div>
                     </div>
@@ -110,10 +116,46 @@ export default function NotificationSettings() {
 
                 <div className="pt-4 border-t border-border">
                   <p className="text-sm text-muted-foreground text-center">
-                    Changes are saved automatically
+                    {isNepali ? "परिवर्तनहरू स्वचालित रूपमा सुरक्षित हुन्छन्" : "Changes are saved automatically"}
                   </p>
                 </div>
               </div>
+            </div>
+
+            {/* Additional Info */}
+            <div className="mt-6 p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium text-foreground mb-2">
+                {isNepali ? "सूचना प्रकारहरू" : "Notification Types"}
+              </h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2">
+                  <Globe className="h-4 w-4 mt-0.5 text-primary" />
+                  <span>
+                    {isNepali 
+                      ? "ब्राउजर पुश सूचनाहरू - तपाईंको ब्राउजरमा तत्काल अलर्टहरू"
+                      : "Browser push notifications - instant alerts in your browser"
+                    }
+                  </span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Mail className="h-4 w-4 mt-0.5 text-primary" />
+                  <span>
+                    {isNepali 
+                      ? "इमेल सूचनाहरू - तपाईंको इमेलमा विस्तृत अपडेटहरू"
+                      : "Email notifications - detailed updates to your inbox"
+                    }
+                  </span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Smartphone className="h-4 w-4 mt-0.5 text-primary" />
+                  <span>
+                    {isNepali 
+                      ? "SMS सूचनाहरू - महत्त्वपूर्ण अपडेटहरूको लागि पाठ सन्देशहरू"
+                      : "SMS notifications - text messages for critical updates"
+                    }
+                  </span>
+                </li>
+              </ul>
             </div>
           </motion.div>
         </div>
