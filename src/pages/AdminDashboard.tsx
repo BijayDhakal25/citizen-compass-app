@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/contexts/AuthContext";
-import { useApplications, Application, ApplicationStatus, CertificateType } from "@/contexts/ApplicationContext";
+import { useApplications, Application, ApplicationStatus, CertificateType, ApplicationDocument } from "@/contexts/ApplicationContext";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { DocumentPreviewModal } from "@/components/DocumentPreviewModal";
 import {
   Users,
   FileText,
@@ -27,7 +28,8 @@ import {
   Mail,
   FileImage,
   File,
-  X
+  X,
+  Megaphone
 } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
@@ -80,6 +82,8 @@ export default function AdminDashboard() {
   const [isActionOpen, setIsActionOpen] = useState(false);
   const [actionType, setActionType] = useState<"approve" | "reject" | null>(null);
   const [actionComment, setActionComment] = useState("");
+  const [previewDocument, setPreviewDocument] = useState<ApplicationDocument | null>(null);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   // Redirect non-admin users
   if (!user || (user.role !== "admin" && user.role !== "staff")) {
@@ -139,11 +143,9 @@ export default function AdminDashboard() {
     setActionComment("");
   };
 
-  const handleViewDocument = (doc: { name: string; type: string }) => {
-    toast({
-      title: isNepali ? "कागजात खोल्दै" : "Opening Document",
-      description: doc.name,
-    });
+  const handleViewDocument = (doc: ApplicationDocument) => {
+    setPreviewDocument(doc);
+    setIsPreviewOpen(true);
   };
 
   const getDocIcon = (type: string) => {
@@ -173,6 +175,11 @@ export default function AdminDashboard() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
+                <Button variant="ghost" size="icon" className="text-sidebar-foreground hover:bg-sidebar-accent" asChild>
+                  <Link to="/admin/announcements">
+                    <Megaphone className="h-5 w-5" />
+                  </Link>
+                </Button>
                 <Button variant="ghost" size="icon" className="text-sidebar-foreground hover:bg-sidebar-accent" asChild>
                   <Link to="/settings/notifications">
                     <Bell className="h-5 w-5" />
@@ -544,6 +551,13 @@ export default function AdminDashboard() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Document Preview Modal */}
+      <DocumentPreviewModal
+        isOpen={isPreviewOpen}
+        onClose={() => setIsPreviewOpen(false)}
+        document={previewDocument}
+      />
     </Layout>
   );
 }

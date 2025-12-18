@@ -12,6 +12,7 @@ import Services from "./pages/Services";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/AdminDashboard";
+import AdminAnnouncements from "./pages/AdminAnnouncements";
 import Complaints from "./pages/Complaints";
 import Contact from "./pages/Contact";
 import CertificateApplication from "./pages/CertificateApplication";
@@ -45,6 +46,7 @@ const App = () => (
                 <Route path="/login" element={<Login />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/admin/announcements" element={<AdminAnnouncements />} />
                 <Route path="/complaints" element={<Complaints />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/settings/notifications" element={<NotificationSettings />} />
